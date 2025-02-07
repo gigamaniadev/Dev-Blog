@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Nicomoji";
+  src: url("./assets/fonts/nicomoji.ttf") format("truetype");
+}
+
+.font-nikomoji {
+  font-family: "Nicomoji", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: #f9fafb; /* bg-gray-50 */
+    color: #111827; /* text-gray-900 */
+  }
+
+  body.dark {
+    background-color: #111827; /* dark:bg-gray-900 */
+    color: #f9fafb; /* dark:text-gray-100 */
+  }
+}
+
+@layer utilities {
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
