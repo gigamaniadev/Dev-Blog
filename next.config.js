@@ -19,6 +19,19 @@ const nextConfig = {
     // Number of pages to keep in memory
     pagesBufferLength: 4,
   },
+
+  // Add production error handling
+  productionBrowserSourceMaps: true,
+  generateEtags: true,
+  poweredByHeader: false,
+
+  // Customize server behavior
+  serverRuntimeConfig: {
+    errorHandling: {
+      debug: false,
+      reportErrors: true,
+    },
+  },
 };
 
 module.exports = nextConfig;
