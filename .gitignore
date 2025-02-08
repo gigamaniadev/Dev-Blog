@@ -126,4 +126,4 @@ coverage/
 *.seed
 *.log.*
 *.gz
-*.tar
+*.tar.gz
