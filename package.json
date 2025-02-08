@@ -1,11 +1,11 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "myblog",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "your-build-command-here",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "webpack serve --mode development",
