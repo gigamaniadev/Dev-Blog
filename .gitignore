@@ -1,1 +1,129 @@
-node_modules
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+
+# JavaScript/TypeScript
+/dist/
+/build/
+/coverage/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+venv/
+*.egg-info/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+
+# C/C++
+*.o
+*.a
+*.out
+*.exe
+*.dll
+*.so
+*.dSYM/
+
+# Go
+/bin/
+/pkg/
+
+# Ruby
+*.gem
+*.rbc
+.bundle/
+/vendor/
+db/*.sqlite3
+db/*.sqlite3-journal
+log/*
+tmp/*
+*.log
+
+# .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# JetBrains IDEs (e.g., IntelliJ IDEA, PhpStorm, PyCharm)
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Backup files
+*.bak
+*.swp
+*.swo
+
+# Logs
+*.log
+*.log.*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Test coverage reports
+coverage/
+
+# NPM and Yarn lock files (if you want to ignore them)
+# package-lock.json
+# yarn.lock
+
+# Global npm/yarn installs
+/.npm
+/.yarn
+
+# Docker
+**/Dockerfile*
+**/docker-compose.yml
+**/docker-compose.override.yml
+**/.docker/
+
+# JetBrains IDE settings
+.idea/
+
+# Webpack
+/dist/
+/public/
+.cache/
+
+# Vagrant
+.vagrant/
+
+# Miscellaneous
+*.pid
+*.seed
+*.log.*
+*.gz
+*.tar

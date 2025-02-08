@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { Lock } from "lucide-react";
+
+const RATE_LIMIT_MINUTES = 5;
+const MAX_ATTEMPTS = 3;
+const MIN_PASSWORD_LENGTH = 8;
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -9,39 +13,103 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [blockExpiry, setBlockExpiry] = useState<Date | null>(null);
+
+  useEffect(() => {
+    // Check for existing rate limit in localStorage
+    const stored = localStorage.getItem("loginBlock");
+    if (stored) {
+      const { expiry, attempts } = JSON.parse(stored);
+      if (new Date(expiry) > new Date()) {
+        setIsBlocked(true);
+        setBlockExpiry(new Date(expiry));
+        setAttempts(attempts);
+      } else {
+        localStorage.removeItem("loginBlock");
+      }
+    }
+  }, []);
+
+  const validateInput = () => {
+    if (!email.includes("@") || !email.includes(".")) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      setError(
+        `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const handleRateLimit = () => {
+    const newAttempts = attempts + 1;
+    setAttempts(newAttempts);
+
+    if (newAttempts >= MAX_ATTEMPTS) {
+      const expiry = new Date(Date.now() + RATE_LIMIT_MINUTES * 60 * 1000);
+      setIsBlocked(true);
+      setBlockExpiry(expiry);
+      localStorage.setItem(
+        "loginBlock",
+        JSON.stringify({
+          expiry: expiry.toISOString(),
+          attempts: newAttempts,
+        })
+      );
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isBlocked && blockExpiry && blockExpiry > new Date()) {
+      const minutesLeft = Math.ceil(
+        (blockExpiry.getTime() - Date.now()) / (60 * 1000)
+      );
+      setError(
+        `Too many login attempts. Please try again in ${minutesLeft} minutes.`
+      );
+      return;
+    }
+
+    if (!validateInput()) {
+      return;
+    }
+
     setIsLoading(true);
     setError("");
 
     try {
-      // Try to sign in first
       const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
+        email: email.trim().toLowerCase(),
         password,
       });
 
       if (signInError) {
-        // If sign in fails, try to sign up
-        const { error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-        });
-
-        if (signUpError) throw signUpError;
-
-        // Wait a moment for the trigger to create the profile
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        handleRateLimit();
+        throw signInError;
       }
+
+      // Verify session
+      const session = await supabase.auth.getSession();
+      if (!session.data.session) {
+        throw new Error("Session validation failed");
+      }
+
+      // Reset attempts on successful login
+      localStorage.removeItem("loginBlock");
+      setAttempts(0);
 
       navigate("/admin");
     } catch (err) {
       console.error("Auth error:", err);
       setError(
-        err instanceof Error
-          ? err.message
-          : "An error occurred during authentication"
+        err instanceof Error ? err.message : "Invalid email or password"
       );
     } finally {
       setIsLoading(false);
@@ -65,7 +133,12 @@ export function LoginPage() {
               className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded relative"
               role="alert"
             >
-              {error}
+              <p className="font-medium">{error}</p>
+              {isBlocked && blockExpiry && (
+                <p className="text-sm mt-1">
+                  Account locked until {blockExpiry.toLocaleTimeString()}
+                </p>
+              )}
             </div>
           )}
           <div className="rounded-md shadow-sm -space-y-px">
@@ -104,10 +177,38 @@ export function LoginPage() {
           <div>
             <button
               type="submit"
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-colors"
+              disabled={isLoading || isBlocked}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              {isLoading ? "Processing..." : "Sign in"}
+              {isLoading ? (
+                <>
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Processing...
+                </>
+              ) : isBlocked ? (
+                "Account Locked"
+              ) : (
+                "Sign in"
+              )}
             </button>
           </div>
         </form>

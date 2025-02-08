@@ -7,6 +7,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { PostDetailPage } from "./pages/PostDetailPage";
 import { AuthGuard } from "./components/AuthGuard";
 import { Footer } from "./components/Footer";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 </AuthGuard>
               }
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
       </div>
