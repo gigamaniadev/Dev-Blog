@@ -15,6 +15,7 @@
   body {
     background-color: #f9fafb; /* bg-gray-50 */
     color: #111827; /* text-gray-900 */
+    font-family: "Popins", sans-serif;
   }
 
   body.dark {
