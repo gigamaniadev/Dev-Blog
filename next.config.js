@@ -1,16 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  trailingSlash: false,
+  // Handle redirects
   async redirects() {
     return [
       {
-        source: "/:path*",
-        destination: "/404",
-        permanent: false,
-        missing: true,
+        source: "/:path*//+",
+        destination: "/:path*",
+        permanent: true,
       },
     ];
   },
-
   // Handle 404s at the configuration level
   onDemandEntries: {
     // Keep pages in memory for longer
