@@ -1,6 +1,5 @@
-import React from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
 interface RichTextEditorProps {
   content: string;
@@ -16,7 +15,8 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
     },
     editorProps: {
       attributes: {
-        class: 'prose dark:prose-invert prose-sm sm:prose-base max-w-none focus:outline-none',
+        class:
+          "prose dark:prose-invert prose-sm sm:prose-base max-w-none focus:outline-none",
       },
     },
   });
@@ -31,9 +31,9 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-            editor.isActive('bold')
-              ? 'bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white'
+            editor.isActive("bold")
+              ? "bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white"
           }`}
         >
           Bold
@@ -41,19 +41,21 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-            editor.isActive('italic')
-              ? 'bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white'
+            editor.isActive("italic")
+              ? "bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white"
           }`}
         >
           Italic
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-            editor.isActive('heading', { level: 2 })
-              ? 'bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white'
+            editor.isActive("heading", { level: 2 })
+              ? "bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white"
           }`}
         >
           H2
@@ -61,17 +63,17 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-            editor.isActive('bulletList')
-              ? 'bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white'
+            editor.isActive("bulletList")
+              ? "bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white"
           }`}
         >
           Bullet List
         </button>
       </div>
       <div className="border dark:border-gray-600 border-t-0 rounded-b-lg overflow-hidden">
-        <EditorContent 
-          editor={editor} 
+        <EditorContent
+          editor={editor}
           className="min-h-[200px] p-4 bg-white dark:bg-gray-800"
         />
       </div>

@@ -63,7 +63,7 @@ export function ShareButtons({ url, title }: ShareButtonsProps) {
   return (
     <>
       {/* Desktop share buttons */}
-      <div className="hidden lg:flex flex-col items-center space-y-4 fixed left-8 top-1/2 -translate-y-1/2">
+      <div className="z-50 hidden lg:flex flex-col items-center space-y-4 fixed left-8 top-1/2 -translate-y-1/2">
         <div className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-lg">
           <Share2 className="h-5 w-5 text-gray-600 dark:text-gray-400" />
         </div>
