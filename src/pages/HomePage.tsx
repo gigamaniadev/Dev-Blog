@@ -44,7 +44,7 @@ export function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-white dark:bg-gray-900">
+      <div className="relative overflow-hidden bg-white dark:bg-gray-800">
         <div className="absolute inset-0">
           <div className="absolute inset-0  bg-cover bg-center opacity-10"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 mix-blend-multiply"></div>
