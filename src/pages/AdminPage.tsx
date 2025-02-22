@@ -147,7 +147,6 @@ export function AdminPage() {
                 className="flex items-center space-x-2 px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
                 <Settings className="h-5 w-5" />
-                <span>Settings</span>
               </button>
               <button
                 onClick={() => {
@@ -157,7 +156,6 @@ export function AdminPage() {
                 className="flex items-center space-x-2 bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
               >
                 <PlusCircle className="h-5 w-5" />
-                <span>New Post</span>
               </button>
             </div>
           </div>
